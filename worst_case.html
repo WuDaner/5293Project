@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>10 worst aviation accidents</title>
+  <style>
+    body {
+      background-color: lightblue;
+
+    }
+  </style>
+  <script src="https://d3js.org/d3.v4.min.js">
+    h1 {
+      display: block;
+      font - size: 2 em;
+      margin - top: 0.67 em;
+      margin - bottom: 0.67 em;
+      margin - left: 0;
+      margin - right: 0;
+      font - weight: bold;
+    }
+  </script>
+</head>
+
+<h1 align="center">10 worst aviation accidents</h1>
+
+<body>
+
+  <script>
+    // Create svg and initial bars
+    var w = 800;
+    var h = 1550;
+    var margin = {
+      top: 25,
+      right: 0,
+      bottom: 25,
+      left: 25
+    };
+    var innerWidth = w - margin.left - margin.right;
+    var innerHeight = h - margin.top - margin.bottom;
+    var dur = 500;
+    var svg = d3.select("body")
+      .append("svg")
+      .attr("width", w)
+      .attr("height", h);
+
+    svg.append("rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("rx", "20")
+      .attr("ry", "20")
+      .attr("width", 800)
+      .attr("height", 1550)
+      .attr("fill", "rgb(218, 211, 199)")
+      .style("stroke", "black")
+      .style("stroke-width", "10")
+      .style("opacity", "0.5")
+
+
+
+    var data = [{
+        "type": "collision",
+        "deathNumber": 583,
+        "involved": 2,
+        "y": 0,
+        "text": "Sunday 27 March 1977"
+      },
+      {
+        "type": "crush",
+        "deathNumber": 520,
+        "involved": 1,
+        "y": 150,
+        "text": "Monday 12 August 1985"
+      },
+      {
+        "type": "collision",
+        "deathNumber": 349,
+        "involved": 2,
+        "y": 300,
+        "text": "Thursday 7 November 1996"
+      },
+      {
+        "type": "crush",
+        "deathNumber": 346,
+        "involved": 1,
+        "y": 450,
+        "text": "Sunday 3 March 1974"
+      },
+      {
+        "type": "crush",
+        "deathNumber": 329,
+        "involved": 1,
+        "y": 600,
+        "text": "Sunday 23 June 1985"
+      },
+      {
+        "type": "crush",
+        "deathNumber": 301,
+        "involved": 1,
+        "y": 750,
+        "text": "Tuesday 19 August 1980"
+      },
+      {
+        "type": "crush",
+        "deathNumber": 298,
+        "involved": 1,
+        "y": 900,
+        "text": "Thursday 17 July 2014"
+      },
+      {
+        "type": "crush",
+        "deathNumber": 290,
+        "involved": 1,
+        "y": 1050,
+        "text": "Sunday 3 July 1988"
+      },
+      {
+        "type": "crush",
+        "deathNumber": 275,
+        "involved": 1,
+        "y": 1200,
+        "text": "Wednesday 19 February 2003"
+      },
+      {
+        "type": "crush",
+        "deathNumber": 271,
+        "involved": 1,
+        "y": 1350,
+        "text": "Friday 25 May 1979"
+      },
+    ]
+
+    var xScale = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.deathNumber)]) // CHANGE
+      .range([0, 350]);
+    var bars = svg.append("g")
+      .attr("id", "plot")
+      .attr("transform", `translate (${margin.left}, ${margin.top})`)
+      .selectAll("rect")
+      .data(data, d => d.deathNumber); // CHANGE
+    bars.enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", "400")
+      .attr("y", d => d.y) // CHANGE
+      .attr("width", d => xScale(d.deathNumber))
+      .attr("height", "30") // CHANGE
+      .attr("fill", "black")
+      .attr("opacity", "0.5");
+
+    var lineposition = [150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500];
+    var line = svg.append("g")
+      .attr("id", "seprateline")
+      .attr("transform", `translate (${margin.left}, ${margin.top})`)
+      .selectAll("line")
+      .data(lineposition);
+    line.enter().append("line")
+      .attr("x1", "50")
+      .attr("y1", d => d - 10)
+      .attr("x2", "750")
+      .attr("y2", d => d - 10)
+      .attr("stroke", "rgb(41, 132, 207)");
+
+    var text = svg.append("g")
+      .attr("id", "text1")
+      .attr("transform", `translate (${margin.left}, ${margin.top})`)
+      .selectAll("text")
+      .data(data);
+
+    text.enter().append("text")
+      .attr("x", "400")
+      .attr("y", d => d.y + 50)
+      .style("fill", "black")
+      .text(d => d.text)
+
+    var number = svg.append("g")
+      .attr("id", "text2")
+      .attr("transform", `translate (${margin.left}, ${margin.top})`)
+      .selectAll("text")
+      .data(data);
+
+    number.enter().append("text")
+      .attr("x", d => 350 + xScale(d.deathNumber))
+      .attr("y", d => d.y + 20)
+      .style("fill", "white")
+      .text(d => d.deathNumber)
+
+
+    var leftside = [{
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/19770327-0-P-1.jpg",
+        "y": 0,
+        "model": "Boeing 747-121",
+        "weblink": "https://aviation-safety.net/database/record.php?id=19770327-0"
+      },
+      {
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/19850812-1-P-2.jpg",
+        "y": 150,
+        "model": "Boeing 747SR-46",
+        "weblink": "https://aviation-safety.net/database/record.php?id=19850812-1"
+      },
+      {
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/19961107-0-P-1.jpg",
+        "y": 300,
+        "model": "Boeing 727-231",
+        "weblink": "https://aviation-safety.net/database/record.php?id=19961107-0"
+      },
+      {
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/19740303-1-P-3.jpg",
+        "y": 450,
+        "model": "McDonnell Douglas DC-10-10",
+        "weblink": "https://aviation-safety.net/database/record.php?id=19740303-1"
+      },
+      {
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/19850623-2-P-1.jpg",
+        "y": 600,
+        "model": "Boeing 747-237B",
+        "weblink": "https://aviation-safety.net/database/record.php?id=19850623-2"
+      },
+      {
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/19800819-1-P-1.jpg",
+        "y": 750,
+        "model": "Lockheed L-1011 TriStar 200",
+        "weblink": "https://aviation-safety.net/database/record.php?id=19800819-1"
+      },
+      {
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/20140717-0-P-1.jpg",
+        "y": 900,
+        "model": "Boeing 777-2H6ER",
+        "weblink": "https://aviation-safety.net/database/record.php?id=20140717-0"
+      },
+      {
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/19880703-0-P-1.jpg",
+        "y": 1050,
+        "model": "Airbus A300B2-203",
+        "weblink": "https://aviation-safety.net/database/record.php?id=19880703-0"
+      },
+      {
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/20030219-0-P-1.jpg",
+        "y": 1200,
+        "model": "Ilyushin Il-76MD",
+        "weblink": "https://aviation-safety.net/database/record.php?id=20030219-0"
+      },
+      {
+        "link": "https://cdn.aviation-safety.net/photos/aircraft/19790525-2-P-2.jpg",
+        "y": 1350,
+        "model": "McDonnell Douglas DC-10-10",
+        "weblink": "https://aviation-safety.net/database/record.php?id=19790525-2"
+      },
+    ]
+
+
+    var picture = svg.append("g")
+      .attr("id", "picture")
+      .attr("transform", `translate (${margin.left}, ${margin.top})`)
+      .selectAll("image")
+      .data(leftside);
+
+    picture.enter().append("image")
+      .attr("x", "50")
+      .attr("y", d => d.y - 20)
+      .attr("width", "150")
+      .attr("height", "150")
+      .attr("xlink:href", d => d.link)
+
+    var airplane = svg.append("g")
+      .attr("id", "airinfor")
+      .attr("transform", `translate (${margin.left}, ${margin.top})`)
+      .selectAll("text")
+      .data(leftside);
+
+    airplane.enter().append("a")
+      .attr("xlink:href", d => d.weblink)
+      .attr("target","_blank")
+      .append("text")
+      .attr("x", "50")
+      .attr("y", d => d.y + 130)
+      .attr("target", "_blank")
+      .style("fill", "black")
+      .text(d => d.model)
+
+      var leftsidecollision = [{
+          "link": "https://cdn.aviation-safety.net/photos/aircraft/19770327-1-P-1.jpg",
+          "link2": 583,
+          "y": 0,
+          "model": "Boeing 747-206B",
+          "weblink": "https://aviation-safety.net/database/record.php?id=19770327-1"
+        },
+        {
+          "link": "https://cdn.aviation-safety.net/photos/aircraft/19961112-0-P-1.jpg",
+          "link2": 583,
+          "y": 300,
+          "model": "Boeing 747-168B",
+          "weblink": "https://aviation-safety.net/database/record.php?id=19961112-0"
+        },
+      ]
+        var twoextralicture = svg.append("g")
+          .attr("id", "picture")
+          .attr("transform", `translate (${margin.left}, ${margin.top})`)
+          .selectAll("image")
+          .data(leftsidecollision);
+
+        twoextralicture.enter().append("image")
+          .attr("x", "230")
+          .attr("y", d => d.y - 20)
+          .attr("width", "150")
+          .attr("height", "150")
+          .attr("xlink:href", d => d.link)
+
+        var twoextraairplane = svg.append("g")
+          .attr("id", "airinfor")
+          .attr("transform", `translate (${margin.left}, ${margin.top})`)
+          .selectAll("text")
+          .data(leftsidecollision);
+
+        twoextraairplane.enter().append("a")
+          .attr("xlink:href", d => d.weblink)
+          .attr("target","_blank")
+          .append("text")
+          .attr("x", "230")
+          .attr("y", d => d.y + 130)
+          .attr("target", "_blank")
+          .style("fill", "black")
+          .text(d => d.model)
+
+    // General Update Pattern
+  </script>
+
+</body>
+
+</html>
