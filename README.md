@@ -1,13 +1,10 @@
 # 5293Project
 
+main data source: 
+  NTSB https://www.ntsb.gov/_layouts/ntsb.aviation/index.aspx
 
-Statistics of aircraft accidents https://www.baaa-acro.com/statistics
-
-
-ANS statistics https://aviation-safety.net/statistics/
-
-
-data : https://www.asias.faa.gov/apex/f?p=100:12:::NO:::
+additonal source: 
+  ANS https://aviation-safety.net/database/
+  statista https://www.statista.com/statistics/564769/airline-industry-number-of-flights/
 
 
-data: https://www.ntsb.gov/_layouts/ntsb.aviation/index.aspx
